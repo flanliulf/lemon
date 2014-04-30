@@ -125,10 +125,10 @@
     </section>
 	<!-- end of main -->
 
-    <form id="f" action="form-template!save.do" method="post" style="display:none;">
-	<s:if test="model != null">
+    <form id="f" action="form-template-save.do" method="post" style="display:none;">
+	<c:if test="${model != null}">
 	  <input id="__gef_id__" name="id" value="${model.id}">
-    </s:if>
+    </c:if>
 	  <input id="__gef_name__" name="name" value="${model.name}">
 	  <textarea id="__gef_content__" name="content">${model.content}</textarea>
 	</form>

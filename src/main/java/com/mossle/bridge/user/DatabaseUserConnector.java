@@ -21,6 +21,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import org.springframework.util.Assert;
+
 public class DatabaseUserConnector implements UserConnector {
     private static Logger logger = LoggerFactory
             .getLogger(DatabaseUserConnector.class);
@@ -36,13 +38,15 @@ public class DatabaseUserConnector implements UserConnector {
             + " from USER_BASE ub where ub.username=? and ub.user_repo_id=?";
     private String sqlFindByRef = "select ub.id as id,ub.username as username,ub.status as status,"
             + "display_name as display_name,email as email,mobile as mobile,user_repo_id as user_repo_ref"
-            + " from USER_BASE ub where ub.reference=? and ub.user_repo_id=?";
+            + " from USER_BASE ub where ub.ref=? and ub.user_repo_id=?";
     private String sqlPagedQueryCount = "select count(*) from USER_BASE";
     private String sqlPagedQuerySelect = "select id as id,username as username,status as status,"
             + "display_name as display_name,email as email,mobile as mobile,user_repo_id as user_repo_ref"
             + " from USER_BASE";
 
     public UserDTO findById(String id) {
+        Assert.notNull(id, "user id should not be null");
+
         try {
             Map<String, Object> map = jdbcTemplate.queryForMap(sqlFindById, id);
 

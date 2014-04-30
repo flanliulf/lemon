@@ -38,23 +38,20 @@ public class CachedSecurityContextRepository extends
                 UserAuthDTO userAuthInCache = userAuthConnector.findById(
                         userAuthInSession.getId(),
                         userAuthInSession.getScopeId());
+
                 SpringSecurityUserAuth userAuthResult = new SpringSecurityUserAuth();
                 beanMapper.copy(userAuthInCache, userAuthResult);
+
                 SpringSecurityUtils.saveUserDetailsToContext(userAuthResult,
-                        null);
+                        null, securityContext);
+            } else {
+                logger.debug("userAuthInSession is null");
             }
+        } else {
+            logger.debug("securityContext is null");
         }
 
         return securityContext;
-    }
-
-    public void saveContext(SecurityContext context,
-            HttpServletRequest request, HttpServletResponse response) {
-        super.saveContext(context, request, response);
-    }
-
-    public boolean containsContext(HttpServletRequest request) {
-        return super.containsContext(request);
     }
 
     public void setUserAuthConnector(UserAuthConnector userAuthConnector) {
